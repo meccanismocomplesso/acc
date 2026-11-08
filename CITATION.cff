@@ -1,11 +1,11 @@
 cff-version: 1.2.0
-message: "Se usi questo software, citalo come indicato qui sotto."
-title: "acc: Anticlustering-Clustering per la focalizzazione su grandi popolazioni"
+message: "If you use this software, please cite it as below."
+title: "acc: Anticlustering-Clustering for focused experiments on large populations"
 abstract: >-
-  Prototipo di ricerca per un disegno sperimentale in più fasi su popolazioni
-  molto grandi: split rappresentativo con anticlustering, esplorazione adattiva
-  tra rappresentatività e copertura (densità temperata), focalizzazione su una
-  regione definita dai dati con inferenza solo su unità nuove.
+  Research prototype of a multi-phase experimental design for very large
+  populations: representative splitting via anticlustering, adaptive
+  exploration balancing representativeness and coverage (tempered density),
+  and focusing on a data-driven region with inference on fresh units only.
 type: software
 authors:
   - given-names: Fabio
