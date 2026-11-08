@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "Se usi questo software, citalo come indicato qui sotto."
+title: "acc: Anticlustering-Clustering per la focalizzazione su grandi popolazioni"
+abstract: >-
+  Prototipo di ricerca per un disegno sperimentale in più fasi su popolazioni
+  molto grandi: split rappresentativo con anticlustering, esplorazione adattiva
+  tra rappresentatività e copertura (densità temperata), focalizzazione su una
+  regione definita dai dati con inferenza solo su unità nuove.
+type: software
+authors:
+  - given-names: Fabio
+    family-names: Nelli
+    email: meccanismo.complesso@gmail.com
+version: 0.2.0
+date-released: "2026-11-08"
+license: MIT
+repository-code: "https://github.com/meccanismocomplesso/acc"
+keywords:
+  - anticlustering
+  - experimental design
+  - adaptive sampling
+  - heterogeneous treatment effects
+  - adaptive enrichment
