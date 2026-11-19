@@ -8,6 +8,13 @@ attiva se `outer_ratio` supera di oltre il 10% il valore atteso per una normale;
 test HC3 a alpha/2; corpo principale con fase 1 al 52% del budget, test a alpha/2); fase 2 invariata (top 3%, HC1).
 Motivazioni e risultati sui semi di sviluppo: `acc_registro_tentativi.md`, punti 9, 12, 13, 14.
 
+### Risultati della valutazione del disegno centrale (20 novembre 2026)
+Semi 10.000–22.999, 4.600 job; dettagli nel registro, punto 15, e in `results/eval_central_*`.
+Potenza media sulle 12 celle con effetto: ACC_v03 0,753, P_rand_60 0,735, P_adapt_v02 0,708, P_mix 0,688, P_rand 0,684, B1 0,518.
+H1: P_adapt_v02 superata (5,3%); ACC_v03 non superata (6,2%, limite superiore 7,9%); la causa va verificata prima di dichiararne la validità.
+H2 e H3 non superate da nessun metodo P, per criteri troppo stretti rispetto alle repliche (copertura media 95–96%; pareggi al 100%).
+H4 superata da P_adapt_v02 (regret massimo 0,22) e ACC_v03 (0,11).
+
 **Deviazioni dal piano congelato v0.2 (`docs/PIANO_SIMULAZIONE.md`)**, registrate prima di lanciare i semi di valutazione:
 1. Sez. 6: nessuno dei tre candidati per la nuova regola di attribuzione batte la v0.2 (registro, punto 3).
    Il metodo `P_adapt_v03` del piano è quindi sostituito da `ACC_v03` = `pipeline_v03`.
