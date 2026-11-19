@@ -663,9 +663,9 @@ Chiude il dubbio di validità sulla stratificazione e indica una piccola correzi
 
 ---
 
-## 15. Valutazione del disegno centrale sui semi riservati — **acc v0.3 il più potente; H1 fallisce per una questione di criterio**
+## 15. Valutazione del disegno centrale sui semi riservati — **acc v0.3 il più potente; H1 non superata, probabilmente per il criterio**
 
-Valutazione del 19–20 novembre 2026 (`experiments/eval_central.py`, analisi `experiments/analyze_eval.py`). Codice congelato prima
+Valutazione del 19 novembre 2026 (`experiments/eval_central.py`, analisi `experiments/analyze_eval.py`). Codice congelato prima
 dell'esecuzione: tag `v0.3-dev-frozen` (configurazione), `v0.3-dev-eval` (script); anche l'analisi è stata registrata nel repository
 prima di vedere i risultati. Deviazioni dal piano nel `CHANGELOG.md`.
 
