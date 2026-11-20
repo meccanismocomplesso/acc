@@ -744,6 +744,41 @@ Prima di dichiarare la validità serve un nullo dedicato con più repliche su se
 
 ---
 
+## 16. Nullo di conferma per H1 — **ACC_v03 valido: 4,58%**
+
+Verifica del 19–20 novembre 2026 (`experiments/eval_null_confirm.py`, `analyze_null_confirm.py`), preregistrata prima dell'esecuzione
+(tag `v0.3-dev-null-confirm`): script, criteri e semi fissati e salvati nel repository prima di vedere i risultati.
+Scenario nullo del disegno centrale, **5.000 repliche indipendenti**, una popolazione nuova per replica, semi riservati 30.000–34.999
+mai usati prima. Codice congelato invariato. L'esecuzione si è interrotta dopo 4.548 repliche per un riavvio dell'ambiente
+ed è stata ripresa per le 452 mancanti, senza duplicati.
+
+Criteri preregistrati:
+- **C1** (piano, H1): limite superiore Clopper-Pearson al 95% ≤ 7%.
+- **C2**: test binomiale bilaterale contro il 5%.
+
+| Metodo | Rifiuti | Tasso | IC 95% | C1 | C2 (p) |
+|---|---|---|---|---|---|
+| **ACC_v03** | 229 / 5.000 | **4,58%** | [4,02; 5,20] | superato | 0,18, compatibile |
+| B5, oracolo | 264 / 5.000 | 5,28% | [4,68; 5,94] | superato | 0,36, compatibile |
+| B1 | 255 / 5.000 | 5,10% | [4,51; 5,75] | superato | 0,75, compatibile |
+| P_rand | 258 / 5.000 | 5,16% | [4,56; 5,81] | superato | 0,60, compatibile |
+
+La statistica z di ACC_v03 nel nullo ha media −0,007 e deviazione standard 0,98, come atteso per un test calibrato.
+Differenza appaiata ACC_v03 − B5: −0,7 punti (e.s. 0,4).
+
+**Conclusione.** ACC_v03 controlla l'errore di I tipo: H1 è superata con il criterio del piano. Il 6,2% della valutazione (62 su 1.000)
+era una fluttuazione. Sommando valutazione e conferma: 291 su 6.000, 4,85%. Anche il lieve eccesso comune visto al punto 15
+non si ripresenta: tutti i metodi sono tra 4,6% e 5,3%.
+
+**Stato finale delle ipotesi per ACC_v03:** H1 superata (con conferma), H4 superata; H2 e H3 non superate per come sono scritti i criteri,
+non per un difetto del metodo (punto 15c).
+
+### Valore di ricerca: **alto**
+
+Chiude l'unico dubbio di validità rimasto e permette di presentare la v0.3 come valida secondo le regole del piano.
+
+---
+
 ## Sintesi
 
 | # | Tentativo | Esito | Valore |
@@ -764,12 +799,13 @@ Prima di dichiarare la validità serve un nullo dedicato con più repliche su se
 | 13 | Confronto con metodi esistenti | acc migliorato 0,65 contro 0,20–0,26 dei metodi classici e 0,54 del due stadi con ML; la v0.2 pubblicata (0,48) non batte quest'ultimo | Alto |
 | 14 | Falsi positivi della stratificazione | 5,06% e 4,53% su 12.000 test per popolazione: era rumore; HC3 consigliato nello strato esterno | Medio |
 | 15 | Valutazione del disegno centrale sui semi riservati | v0.3 la più potente (0,75 contro 0,71 della v0.2); H4 superata; H1–H3 falliscono per criteri troppo stretti; validità da confermare | Alto |
+| 16 | Nullo di conferma (5.000 repliche) | ACC_v03 4,58% [4,02; 5,20]: H1 superata, validità confermata | Alto |
 
-Sulla potenza i passi avanti rispetto alla v0.2 pubblicata sono due: la ripartizione del budget (9), con il 60% alla fase 1 l'adattivo passa da 0,57 a 0,65; e la stratificazione condizionata (12), che isola e studia a parte i gruppi rari nelle covariate. Con entrambe acc supera tutti i metodi concorrenti provati (13), cosa che la v0.2 pubblicata non fa; la valutazione sui semi riservati lo conferma (15), con un vantaggio piccolo sul due stadi casuale al 60%. Gli altri passi avanti sono sulla validità (1, 2) e sulla comprensione del metodo (6, 8). Il punto 8 mostra che con covariate a code pesanti il metodo perde il suo vantaggio.
+Sulla potenza i passi avanti rispetto alla v0.2 pubblicata sono due: la ripartizione del budget (9), con il 60% alla fase 1 l'adattivo passa da 0,57 a 0,65; e la stratificazione condizionata (12), che isola e studia a parte i gruppi rari nelle covariate. Con entrambe acc supera tutti i metodi concorrenti provati (13), cosa che la v0.2 pubblicata non fa; la valutazione sui semi riservati lo conferma (15), con un vantaggio piccolo sul due stadi casuale al 60%, e il nullo di conferma ne stabilisce la validità (16). Gli altri passi avanti sono sulla validità (1, 2) e sulla comprensione del metodo (6, 8). Il punto 8 mostra che con covariate a code pesanti il metodo perde il suo vantaggio.
 
 ## Idee non ancora provate
 
-0. **Nullo di conferma** per H1 (15c): almeno 5.000 repliche dello scenario nullo su semi riservati nuovi, per ACC_v03 e B5.
+0. **Nullo di conferma**: fatto (16), H1 superata.
    **Criteri del piano**: proporre all'autore criteri H1–H3 coerenti con il numero di repliche (per esempio H1 sul limite superiore
    con più repliche, H2 sulla copertura media o con correzione per il numero di celle, H3 con "maggiore o uguale" o escludendo le celle al 100%).
 
@@ -793,6 +829,6 @@ Tutto il materiale è in `acc_proposta_v03dev.zip`; la patch del solo codice è 
 
 - Codice: `acc/core.py` (parametri `jitter`, `rule`, `focus`; funzioni `select_projected`, `zoom_phase1`, `sequential_phase1`, `heterogeneity_t`, `outer_stratum`, `outer_ratio`) e `acc/__init__.py`.
 - Test: `tests/test_core.py`, 19 test, tutti superati.
-- Script: `experiments/dev_null_check.py`, `dev_rules.py`, `dev_rho.py`, `dev_explore.py`, `analyze_dev.py`, `study_tails.py`, `analyze_tails.py`, `study_budget.py`, `analyze_budget.py`, `study_seqlen.py`, `analyze_seqlen.py`, `study_multicand.py`, `analyze_multicand.py`, `study_strat.py`, `analyze_strat.py`, `study_competitors.py`, `analyze_competitors.py`, `dev_null_strat.py`, `eval_central.py`, `analyze_eval.py`, `dev_final_test.py`.
+- Script: `experiments/dev_null_check.py`, `dev_rules.py`, `dev_rho.py`, `dev_explore.py`, `analyze_dev.py`, `study_tails.py`, `analyze_tails.py`, `study_budget.py`, `analyze_budget.py`, `study_seqlen.py`, `analyze_seqlen.py`, `study_multicand.py`, `analyze_multicand.py`, `study_strat.py`, `analyze_strat.py`, `study_competitors.py`, `analyze_competitors.py`, `dev_null_strat.py`, `eval_central.py`, `analyze_eval.py`, `dev_final_test.py`, `eval_null_confirm.py`, `analyze_null_confirm.py`.
 - Risultati: `results/dev_*_results.csv` e `results/dev_*_summary.csv`.
 - Le stesse informazioni in forma breve sono nel `CHANGELOG.md`, nella sezione "Non rilasciato".
