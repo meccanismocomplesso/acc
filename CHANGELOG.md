@@ -1,14 +1,47 @@
 # Changelog
 
-## 0.3-dev, congelata il 19 novembre 2026 (tag `v0.3-dev-frozen`)
+## 0.3.0 — 20 novembre 2026
+
+Versione di ricerca. Registro completo dei tentativi in `docs/registro_tentativi.md`; sintesi in `docs/RISULTATI_V03.md`.
+
+### Configurazione consigliata
+`acc.pipeline_v03` (parametri in `acc.V03_CONFIG`), congelata il 19 novembre 2026 prima della valutazione:
+fase 1 adattiva v0.2 con il 60% del budget (era il 40%) e stratificazione condizionata dei gruppi rari nelle covariate.
+Tutte le funzioni esistenti mantengono il comportamento della v0.2 con i parametri di default.
+
+### Aggiunte
+- `pipeline_v03`, `V03_CONFIG`; `outer_ratio`, `outer_stratum` (diagnostica e strato esterno, solo covariate).
+- `anticluster(..., jitter=...)`: assegnazione randomizzata. Con il default (`jitter = 0`) la partizione è deterministica
+  data X: come assegnazione trattamento/controllo non è una randomizzazione (difetto della v0.2, documentato).
+- `ols_effect(..., se_type="hc3")`.
+- Strumenti esplorativi: `adaptive_phase1(..., rule=..., focus=...)`, `heterogeneity_t`, `sequential_phase1`,
+  `select_projected`, `zoom_phase1`.
+- Studi e valutazioni in `experiments/`, risultati in `results/`; 19 test (erano 7).
+
+### Valutazione sui semi riservati (protocollo preregistrato; tag `v0.3-dev-frozen`, `v0.3-dev-eval`,
+`v0.3-dev-null-confirm`, `v0.3-dev-regret60`)
+- Disegno centrale del piano: potenza media 0,753 contro 0,708 della v0.2 (differenza appaiata +0,046, e.s. 0,008).
+- Errore di I tipo: 6,2% sulle prime 1.000 repliche nulle (H1 non superata); conferma preregistrata su 5.000 repliche
+  con semi nuovi: 4,58% (IC 95% 4,02–5,20%), H1 superata.
+- Regret massimo a parità di budget di esplorazione: 0,18 contro 0,19 del mix fisso 50/50 e 0,63 delle strategie pure.
+- H4 superata; H2 e H3 non superate come scritte nel piano (criteri troppo stretti per 300 repliche; pareggi al 100%).
+
+### Limiti noti
+Nel disegno gaussiano il guadagno viene dalla ripartizione del budget; la regola adattiva equivale a un mix fisso;
+la stratificazione è validata solo sui semi di sviluppo; l'assegnazione randomizzata non è nella configurazione congelata;
+le regioni rare nell'effetto (1%) restano sotto il 55% di potenza con qualsiasi metodo. Dettagli nel README.
+
+### Storia dello sviluppo
+
+#### 0.3-dev, congelata il 19 novembre 2026 (tag `v0.3-dev-frozen`)
 
 Configurazione da valutare sui semi riservati, `acc.pipeline_v03` / `acc.V03_CONFIG`:
 fase 1 adattiva v0.2 (regola invariata) con n1/B = 0,6; stratificazione condizionata (strato esterno 2%,
 attiva se `outer_ratio` supera di oltre il 10% il valore atteso per una normale; strato con il 16% del budget,
 test HC3 a alpha/2; corpo principale con fase 1 al 52% del budget, test a alpha/2); fase 2 invariata (top 3%, HC1).
-Motivazioni e risultati sui semi di sviluppo: `acc_registro_tentativi.md`, punti 9, 12, 13, 14.
+Motivazioni e risultati sui semi di sviluppo: `docs/registro_tentativi.md`, punti 9, 12, 13, 14.
 
-### Risultati della valutazione del disegno centrale (19 novembre 2026)
+#### Risultati della valutazione del disegno centrale (19 novembre 2026)
 Semi 10.000–22.999, 4.600 job; dettagli nel registro, punto 15, e in `results/eval_central_*`.
 Potenza media sulle 12 celle con effetto: ACC_v03 0,753, P_rand_60 0,735, P_adapt_v02 0,708, P_mix 0,688, P_rand 0,684, B1 0,518.
 H1: P_adapt_v02 superata (5,3%); ACC_v03 non superata (6,2%, limite superiore 7,9%); la causa va verificata prima di dichiararne la validità.
@@ -34,12 +67,12 @@ mix fisso (−0,01, IC −0,08–+0,06) non è distinguibile da zero: l'affermaz
 4. Errore standard HC3 (invece di HC1) solo per il test dello strato esterno, che nel disegno centrale gaussiano
    non si attiva.
 
-## Non rilasciato — proposta di lavoro del 15 novembre 2026 (sviluppo verso la 0.3)
+#### Proposta di lavoro del 15 novembre 2026 (sviluppo verso la 0.3)
 
 Nessun comportamento predefinito cambia: con i parametri di default `acc.core` dà risultati
 identici a quelli del codice v0.2 (verificato sul pilota 2). I semi di valutazione (da 10.000 in su) non sono stati usati.
 
-### Aggiunte al codice
+#### Aggiunte al codice
 - `anticluster(..., jitter=0.0)`: con `jitter = 0` la partizione è una funzione deterministica di X
   (due esecuzioni coincidono al 100%, cambia solo l'etichetta dei gruppi), quindi usata come
   assegnazione trattamento/controllo non è una randomizzazione. Con `jitter = 0.05` le esecuzioni
@@ -52,7 +85,7 @@ identici a quelli del codice v0.2 (verificato sul pilota 2). I semi di valutazio
 - `select_projected` e `zoom_phase1`: due selettori esplorativi per la fase 1, fuori dal piano.
 - 7 nuovi test (14 in totale).
 
-### Risultati (dettagli in `results/dev_*`)
+#### Risultati (dettagli in `results/dev_*`)
 - **Errore di I tipo** (`experiments/dev_null_check.py`, semi 2.000–2.199): 200 regioni selezionate
   da P_adapt v0.2 sotto H0, fase 2 ripetuta 50 volte su ciascuna. Rifiuto 4,86% (e.s. 0,21) su
   10.000 test; P_rand 5,38% (e.s. 0,25). L'8,3% del pilota 2 (5/60) è compatibile con il caso.
