@@ -18,6 +18,10 @@ H4 superata da P_adapt_v02 (regret massimo 0,22) e ACC_v03 (0,11).
 Nullo di conferma preregistrato (tag `v0.3-dev-null-confirm`, semi 30.000–34.999, 5.000 repliche): ACC_v03 4,58%
 (IC 95% 4,02–5,20%), H1 superata; B5 5,28%, B1 5,10%, P_rand 5,16%. Registro, punto 16.
 
+Regret massimo a parità di budget (preregistrato, tag `v0.3-dev-regret60`, semi 41.000–52.299, tutte le strategie con n1/B = 0,6):
+ACC_v03 0,18 (IC 95% 0,14–0,25), mix 50/50 0,19, casuale 0,63, copertura 0,63. ACC batte le strategie pure, ma la differenza con il
+mix fisso (−0,01, IC −0,08–+0,06) non è distinguibile da zero: l'affermazione preregistrata non è sostenuta. Registro, punto 17.
+
 **Deviazioni dal piano congelato v0.2 (`docs/PIANO_SIMULAZIONE.md`)**, registrate prima di lanciare i semi di valutazione:
 1. Sez. 6: nessuno dei tre candidati per la nuova regola di attribuzione batte la v0.2 (registro, punto 3).
    Il metodo `P_adapt_v03` del piano è quindi sostituito da `ACC_v03` = `pipeline_v03`.

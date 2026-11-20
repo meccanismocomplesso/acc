@@ -779,6 +779,63 @@ Chiude l'unico dubbio di validità rimasto e permette di presentare la v0.3 come
 
 ---
 
+## 17. Regret massimo a parità di budget di esplorazione — **ACC protegge dal caso peggiore quanto un mix fisso 50/50, non di più**
+
+Studio del 20 novembre 2026, preregistrato (tag `v0.3-dev-regret60`; `experiments/eval_regret60.py`, `analyze_regret60.py`).
+Motivo: al punto 15 il regret di ACC_v03 (fase 1 di 600 unità) era calcolato contro strategie con fase 1 di 400, un confronto
+che lo favoriva. Qui **tutte le strategie hanno 600 unità di esplorazione e 400 di conferma**.
+
+**Disegno.** Le 12 celle con effetto del disegno centrale, 300 repliche ciascuna, semi riservati nuovi 41.000–52.299. Stessa
+popolazione per tutte le strategie in ogni replica. Oracolo per cella: la migliore tra casuale, copertura e mix 50/50, cioè la
+strategia fissa che si sceglierebbe conoscendo la posizione dell'effetto. Incertezza: bootstrap appaiato con 5.000 ricampionamenti.
+Affermazione principale preregistrata: ACC_v03 ha regret massimo minore di tutte e tre le alternative, cioè ciascun limite
+superiore dell'IC 95% della differenza è sotto zero. Popolazioni gaussiane: la stratificazione non si è mai attivata.
+
+### 17a. Regret massimo
+
+| Strategia (tutte al 60%) | Regret massimo | IC 95% | Cella peggiore | Regret medio | Potenza media |
+|---|---|---|---|---|---|
+| Casuale | 0,63 | [0,56; 0,69] | coda, τ = 1,5 | 0,087 | 0,729 |
+| Copertura | 0,63 | [0,58; 0,69] | nucleo denso, τ = 1,5 | 0,197 | 0,619 |
+| Mix 50/50 | 0,19 | [0,15; 0,26] | coda, τ = 1,5 | 0,063 | 0,752 |
+| **ACC_v03** | **0,18** | [0,14; 0,25] | coda, τ = 1,5 | **0,058** | **0,758** |
+
+Differenze di regret massimo, ACC_v03 meno alternativa:
+
+| Alternativa | Differenza | IC 95% | Esito |
+|---|---|---|---|
+| Casuale | −0,45 | [−0,51; −0,37] | ACC minore |
+| Copertura | −0,45 | [−0,52; −0,36] | ACC minore |
+| Mix 50/50 | −0,01 | [−0,08; +0,06] | non conclusivo |
+
+**Affermazione principale: non sostenuta**, perché la differenza con il mix 50/50 non è distinguibile da zero.
+Il controllo con oracolo scelto su metà indipendente delle repliche dà gli stessi valori (0,19 per ACC, 0,20 per il mix, 0,63 per gli altri).
+
+### 17b. ACC e mix fisso sono quasi lo stesso metodo
+
+Potenza appaiata ACC_v03 − mix 50/50: +0,006 (e.s. 0,008). In nessuna cella la differenza supera 2,3 punti, sempre entro un errore
+standard. È coerente con il punto 3: la regola adattiva v0.2 si muove poco dalla quota iniziale di circa 0,5, quindi in pratica ACC
+si comporta come un mix fisso. Costa però 3,3 volte il tempo di calcolo (2,3 s contro 0,7 s).
+
+### 17c. Cosa si può affermare
+
+- **Sostenuto:** partire al buio con una strategia che mescola rappresentatività e copertura costa al più circa 18–19 punti di potenza
+  rispetto alla strategia scelta conoscendo la geometria, contro 63 punti per chi sceglie una strategia pura. È una riduzione di oltre due
+  terzi del rischio nel caso peggiore.
+- **Non sostenuto:** che l'adattività di ACC aggiunga protezione rispetto a un semplice mix fisso. Il contributo distintivo misurato qui è
+  la miscela, non l'adattamento. Era il ripiego previsto dal piano ("mix robusto", sez. 7).
+- **Non verificato:** le popolazioni non gaussiane, dove ACC si differenzia dal mix per la stratificazione (punti 12–13), e la parte
+  "se l'effetto esiste" oltre al nullo gaussiano già confermato (punto 16).
+- La cella peggiore per entrambi è la coda con effetto debole: la copertura pura arriva all'86%, il mix e ACC al 67–68%.
+
+### Valore di ricerca: **alto**
+
+Corregge al ribasso l'interpretazione del punto 15. Il valore di ACC come scelta iniziale al buio, nel disegno gaussiano, coincide con
+quello di un mix fisso 50/50. Per dimostrare un contributo distintivo servirebbe una regola adattiva che si sposti davvero verso la
+strategia giusta, oppure mostrare che la stratificazione riduce il regret massimo su popolazioni non gaussiane.
+
+---
+
 ## Sintesi
 
 | # | Tentativo | Esito | Valore |
@@ -800,12 +857,16 @@ Chiude l'unico dubbio di validità rimasto e permette di presentare la v0.3 come
 | 14 | Falsi positivi della stratificazione | 5,06% e 4,53% su 12.000 test per popolazione: era rumore; HC3 consigliato nello strato esterno | Medio |
 | 15 | Valutazione del disegno centrale sui semi riservati | v0.3 la più potente (0,75 contro 0,71 della v0.2); H4 superata; H1–H3 falliscono per criteri troppo stretti; validità da confermare | Alto |
 | 16 | Nullo di conferma (5.000 repliche) | ACC_v03 4,58% [4,02; 5,20]: H1 superata, validità confermata | Alto |
+| 17 | Regret massimo a parità di budget (tutti al 60%) | ACC 0,18 [0,14; 0,25] contro 0,63 delle strategie pure, ma uguale al mix fisso 50/50 (0,19); l'adattività non aggiunge protezione | Alto |
 
-Sulla potenza i passi avanti rispetto alla v0.2 pubblicata sono due: la ripartizione del budget (9), con il 60% alla fase 1 l'adattivo passa da 0,57 a 0,65; e la stratificazione condizionata (12), che isola e studia a parte i gruppi rari nelle covariate. Con entrambe acc supera tutti i metodi concorrenti provati (13), cosa che la v0.2 pubblicata non fa; la valutazione sui semi riservati lo conferma (15), con un vantaggio piccolo sul due stadi casuale al 60%, e il nullo di conferma ne stabilisce la validità (16). Gli altri passi avanti sono sulla validità (1, 2) e sulla comprensione del metodo (6, 8). Il punto 8 mostra che con covariate a code pesanti il metodo perde il suo vantaggio.
+Sulla potenza i passi avanti rispetto alla v0.2 pubblicata sono due: la ripartizione del budget (9), con il 60% alla fase 1 l'adattivo passa da 0,57 a 0,65; e la stratificazione condizionata (12), che isola e studia a parte i gruppi rari nelle covariate. Con entrambe acc supera tutti i metodi concorrenti provati (13), cosa che la v0.2 pubblicata non fa; la valutazione sui semi riservati lo conferma (15), con un vantaggio piccolo sul due stadi casuale al 60%, e il nullo di conferma ne stabilisce la validità (16). A parità di budget, però, la protezione nel caso peggiore è quella di un mix fisso 50/50: l'adattività non aggiunge nulla nel disegno gaussiano (17). Gli altri passi avanti sono sulla validità (1, 2) e sulla comprensione del metodo (6, 8). Il punto 8 mostra che con covariate a code pesanti il metodo perde il suo vantaggio.
 
 ## Idee non ancora provate
 
 0. **Nullo di conferma**: fatto (16), H1 superata.
+   **Regret su popolazioni non gaussiane** a parità di budget (17c): ACC con stratificazione contro mix fisso, casuale e copertura su t3 e mix,
+   per vedere se la stratificazione dà un contributo distintivo dove l'adattività non lo dà.
+   **Una regola adattiva che si muova davvero** (17c): la v0.2 resta vicina a 0,5; servirebbe un segnale più forte della fase 1 (vedi punti 6 e 10).
    **Criteri del piano**: proporre all'autore criteri H1–H3 coerenti con il numero di repliche (per esempio H1 sul limite superiore
    con più repliche, H2 sulla copertura media o con correzione per il numero di celle, H3 con "maggiore o uguale" o escludendo le celle al 100%).
 
@@ -829,6 +890,6 @@ Tutto il materiale è in `acc_proposta_v03dev.zip`; la patch del solo codice è 
 
 - Codice: `acc/core.py` (parametri `jitter`, `rule`, `focus`; funzioni `select_projected`, `zoom_phase1`, `sequential_phase1`, `heterogeneity_t`, `outer_stratum`, `outer_ratio`) e `acc/__init__.py`.
 - Test: `tests/test_core.py`, 19 test, tutti superati.
-- Script: `experiments/dev_null_check.py`, `dev_rules.py`, `dev_rho.py`, `dev_explore.py`, `analyze_dev.py`, `study_tails.py`, `analyze_tails.py`, `study_budget.py`, `analyze_budget.py`, `study_seqlen.py`, `analyze_seqlen.py`, `study_multicand.py`, `analyze_multicand.py`, `study_strat.py`, `analyze_strat.py`, `study_competitors.py`, `analyze_competitors.py`, `dev_null_strat.py`, `eval_central.py`, `analyze_eval.py`, `dev_final_test.py`, `eval_null_confirm.py`, `analyze_null_confirm.py`.
+- Script: `experiments/dev_null_check.py`, `dev_rules.py`, `dev_rho.py`, `dev_explore.py`, `analyze_dev.py`, `study_tails.py`, `analyze_tails.py`, `study_budget.py`, `analyze_budget.py`, `study_seqlen.py`, `analyze_seqlen.py`, `study_multicand.py`, `analyze_multicand.py`, `study_strat.py`, `analyze_strat.py`, `study_competitors.py`, `analyze_competitors.py`, `dev_null_strat.py`, `eval_central.py`, `analyze_eval.py`, `dev_final_test.py`, `eval_null_confirm.py`, `analyze_null_confirm.py`, `eval_regret60.py`, `analyze_regret60.py`.
 - Risultati: `results/dev_*_results.csv` e `results/dev_*_summary.csv`.
 - Le stesse informazioni in forma breve sono nel `CHANGELOG.md`, nella sezione "Non rilasciato".
