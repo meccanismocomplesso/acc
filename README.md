@@ -1,6 +1,6 @@
 # acc — Anticlustering-Clustering for focused experiments on large populations
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24051299.svg)](https://doi.org/10.5281/zenodo.24051299)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24051298.svg)](https://doi.org/10.5281/zenodo.24051298)
 
 Version **0.3.0** · November 20, 2026 · author: Fabio Nelli · research prototype.
 
@@ -174,7 +174,9 @@ virtual twins, Statistics in Medicine; Simon & Simon (2013), adaptive enrichment
 
 ## How to cite
 
-See `CITATION.cff` or use the DOI: [10.5281/zenodo.24051299](https://doi.org/10.5281/zenodo.24051299).
+See `CITATION.cff` or use the DOI for all versions: [10.5281/zenodo.24051298](https://doi.org/10.5281/zenodo.24051298)
+(always resolves to the latest version). Version-specific DOIs: 0.3.0 [10.5281/zenodo.24438145](https://doi.org/10.5281/zenodo.24438145),
+0.2.0 [10.5281/zenodo.24051299](https://doi.org/10.5281/zenodo.24051299).
 
 ## License
 

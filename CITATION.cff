@@ -12,7 +12,14 @@ authors:
     family-names: Nelli
     email: meccanismo.complesso@gmail.com
 version: 0.3.0
-doi: 10.5281/zenodo.24051299
+doi: 10.5281/zenodo.24051298
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.24051298
+    description: "All versions (resolves to the latest)"
+  - type: doi
+    value: 10.5281/zenodo.24438145
+    description: "Version 0.3.0"
 date-released: "2026-11-20"
 license: MIT
 repository-code: "https://github.com/meccanismocomplesso/acc"
